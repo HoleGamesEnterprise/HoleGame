@@ -1,4 +1,4 @@
 
-public class GameObjects {
+public abstract class GameObjects {
 
 }
