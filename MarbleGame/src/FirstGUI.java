@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import com.sun.prism.paint.Color;
-
+import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -26,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 
 public class FirstGUI extends Application{
@@ -33,17 +34,47 @@ public class FirstGUI extends Application{
 	
 	public void start(Stage prime) throws Exception {
 
+		//vielleicht das ganze auf ne textdatei auslagern weil diese iwie miskenhaft ist
+		
+		Level[] levels = new Level[10];
+		for (int i = 0; i<10; i++) {
+			levels[i]= new Level();
+			levels[i].setGameObjects(new ArrayList<GameObjects>());
+		}
+		
+//		
+		
+		
+		
+		Random a = new Random();
+		
+		for (int k = 0; k<10; k++) {
+			for (int j = 0; j<10; j++) {
+				ArrayList<Pair<Integer,Integer>> coordsLevelOne = new ArrayList<Pair<Integer,Integer>>();
+				for (int i = 0; i<10; i++) {
+					coordsLevelOne.add(new Pair<Integer,Integer>(a.nextInt(500),a.nextInt(500)));
+				}
+				levels[k].getGameObjectsList().get(j).setCoords(coordsLevelOne);
+			}
+
+		}
+
+		
+		
+		
+		
+		
 		prime.setTitle("Game Test WIP");
 		Group root = new Group();
 		Scene newScene = new Scene(root);
 		prime.setScene(newScene);
 		
+		
+		
+		
 		Button exit = new Button("Click to exit");
 		exit.setLayoutX(10);
 		exit.setLayoutY(10);
-		
-		Circle marble = new Circle(30);
-		
 		exit.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent e) {
 				Platform.exit();
@@ -53,7 +84,7 @@ public class FirstGUI extends Application{
 
 		
 		Canvas canvas = new Canvas(500,500);
-		canvas.setStyle("-fx-background-color: black;");
+		canvas.setStyle("-fx-background-color: black;"); //warum auch immer das nicht geht
 		root.getChildren().add(canvas);
 		root.getChildren().add(exit);
 		System.out.println(canvas.getHeight());
@@ -118,6 +149,10 @@ public class FirstGUI extends Application{
 				
 				
 			}
+			
+			public void drawObjects() {
+				
+			}
 		}.start();
 		prime.setResizable(false);
 		//to be changed accordingly to the display on the raspberry pi
@@ -127,5 +162,6 @@ public class FirstGUI extends Application{
 	public static void main(String[] args) {
 		Application.launch(args);
 	}
+	
 
 }

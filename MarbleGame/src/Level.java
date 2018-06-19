@@ -27,4 +27,11 @@ public class Level {
 		return go.get(index);
 	}
 	
+	public void setGameObjects(ArrayList<GameObjects> a) {
+		this.go=a;
+	}
+	
+	public ArrayList<GameObjects> getGameObjectsList(){
+		return go;
+	}
 }
