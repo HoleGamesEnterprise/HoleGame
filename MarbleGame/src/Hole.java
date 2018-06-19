@@ -1,3 +1,4 @@
+import javafx.util.Pair;
 
 public class Hole extends GameObjects{
 
@@ -8,9 +9,9 @@ public class Hole extends GameObjects{
 	}
 	
 	Hole(int x, int y, int r){
-		this.x=x;
-		this.y=y;
+		coords.add(new Pair<Integer,Integer>(x,y));
 		this.r=r;
+		
 	}
 	
 	public int getR() {

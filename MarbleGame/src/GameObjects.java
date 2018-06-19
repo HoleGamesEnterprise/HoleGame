@@ -6,31 +6,25 @@ public class GameObjects {
 
 
 	
-	int x;
-	int y;
+	ArrayList<Pair<Integer, Integer>> coords = new ArrayList<Pair<Integer,Integer>>();
 	
 	GameObjects(){
-		this(0,0);
+		this(null);
 	}
 	
-	GameObjects(int x, int y){
-		this.x=x;
-		this.y=y;
+	GameObjects(ArrayList<Pair<Integer,Integer>> insert){
+		coords = insert;
 	}
 	
-	public int getX(){
-		return x;
+	public ArrayList<Pair<Integer, Integer>> getCoordsArray(){
+		return coords;
 	}
 	
-	public int getY() {
-		return y;
+	public void setCoords(ArrayList<Pair<Integer, Integer>> insert) {
+		coords = insert;
 	}
 	
-	public void setX(int x) {
-		this.x=x;
-	}
-	
-	public void setY(int y) {
-		this.y=y;
+	public void addCoord(Pair<Integer,Integer> a) {
+		coords.add(a);
 	}
 }
