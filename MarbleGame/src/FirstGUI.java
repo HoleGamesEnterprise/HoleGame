@@ -40,6 +40,9 @@ public class FirstGUI extends Application{
 		for (int i = 0; i<10; i++) {
 			levels[i]= new Level();
 			levels[i].setGameObjects(new ArrayList<GameObjects>());
+			for (int j = 0; j<10; j++) {
+				levels[i].add(new GameObjects());
+			}
 		}
 		
 //		
@@ -151,6 +154,7 @@ public class FirstGUI extends Application{
 			}
 			
 			public void drawObjects() {
+				//react to the levels array somehow
 				
 			}
 		}.start();
