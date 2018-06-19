@@ -23,5 +23,8 @@ public class Level {
 		return tmp;
 	}
 	
+	public GameObjects getObject(int index) {
+		return go.get(index);
+	}
 	
 }
