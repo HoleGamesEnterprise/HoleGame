@@ -9,7 +9,6 @@ public class GameObjects {
 	ArrayList<Pair<Integer, Integer>> coords = new ArrayList<Pair<Integer,Integer>>();
 	
 	GameObjects(){
-		this(null);
 	}
 	
 	GameObjects(ArrayList<Pair<Integer,Integer>> insert){

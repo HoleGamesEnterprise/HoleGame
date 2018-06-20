@@ -42,20 +42,39 @@ public class FirstGUI extends Application {
 		for (int i = 0; i < 10; i++) {
 			levels[i] = new Level();
 			levels[i].setGameObjectsList(new ArrayList<GameObjects>());
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < 2; j++) {
 				levels[i].add(new GameObjects());
 			}
 		}
-		for (int k = 0; k < 10; k++) {
-			for (int j = 0; j < 10; j++) {
-				ArrayList<Pair<Integer, Integer>> coordsLevelOne = new ArrayList<Pair<Integer, Integer>>();
-				for (int i = 0; i < 10; i++) {
-					coordsLevelOne.add(new Pair<Integer, Integer>(a.nextInt(500), a.nextInt(500)));
-				}
-				levels[k].getGameObjectsList().get(j).setCoordsList(coordsLevelOne);
-			}
-
-		}
+		//habe jeden level 10 gameobjects gegeben
+		
+		
+//		for (int k = 0; k < 10; k++) {
+//			for (int j = 0; j < 10; j++) {
+//				ArrayList<Pair<Integer, Integer>> coordsLevelOne = new ArrayList<Pair<Integer, Integer>>();
+//				for (int i = 0; i < 10; i++) {
+//					coordsLevelOne.add(new Pair<Integer, Integer>(a.nextInt(500), a.nextInt(500)));
+//				}
+//				levels[k].getGameObjectsList().get(j).setCoordsList(coordsLevelOne);
+//			}
+//
+//		}
+		levels[0].getGameObjectsList().get(0).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
+		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,100));
+		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,100));
+		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,400));
+		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,400));
+		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(250,100));
+		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(100,400));
+		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(400,400));
+		
+		
+		
+		
+		
+		
+		
+		
 
 		prime.setTitle("Game Test WIP");
 		Group root = new Group();
@@ -79,12 +98,12 @@ public class FirstGUI extends Application {
 		
 		
 		
-		for (int i = 0; i<levels[1].getGameObjectsList().size(); i++) {
-			int oldValX = levels[1].getGameObjectsList().get(i).getCoordsList().get(levels[1].getGameObjectsList().get(i).getCoordsLength()-1).getKey();
-			int oldValY = levels[1].getGameObjectsList().get(i).getCoordsList().get(levels[1].getGameObjectsList().get(i).getCoordsLength()-1).getValue();
-			for (int j = 0; j<levels[1].getGameObjectsList().get(i).getCoordsLength(); j++) {
+		for (int i = 0; i<levels[0].getGameObjectsList().size(); i++) {
+			int oldValX = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getKey();
+			int oldValY = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getValue();
+			for (int j = 0; j<levels[0].getGameObjectsList().get(i).getCoordsLength(); j++) {
 				
-				Pair<Integer,Integer> values = levels[1].getGameObjectsList().get(i).getCoordsList().get(j);
+				Pair<Integer,Integer> values = levels[0].getGameObjectsList().get(i).getCoordsList().get(j);
 				Line line = new Line(oldValX, oldValY, values.getKey(), values.getValue());
 				oldValX = values.getKey();
 				oldValY = values.getValue();
