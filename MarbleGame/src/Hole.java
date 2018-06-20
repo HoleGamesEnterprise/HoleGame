@@ -14,11 +14,11 @@ public class Hole extends GameObjects{
 		
 	}
 	
-	public int getR() {
+	public int getRadius() {
 		return r;
 	}
 	
-	public void setR(int r) {
+	public void setRadius(int r) {
 		this.r=r;
 	}
 	
