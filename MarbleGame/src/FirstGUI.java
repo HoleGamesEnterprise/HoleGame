@@ -1,5 +1,4 @@
 
-
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
@@ -87,8 +86,10 @@ public class FirstGUI extends Application{
 
 		
 		Canvas canvas = new Canvas(500,500);
-		canvas.setStyle("-fx-background-color: black;"); //warum auch immer das nicht geht
+		StackPane holder = new StackPane();
+		holder.getChildren().add(canvas);
 		root.getChildren().add(canvas);
+		holder.setStyle("-fx-background-color: black;");
 		root.getChildren().add(exit);
 		System.out.println(canvas.getHeight());
 		
@@ -126,29 +127,31 @@ public class FirstGUI extends Application{
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		new AnimationTimer() {
-			int x = 300;
-			int y = 300;
+			Random r = new Random();
+			int x = r.nextInt((int)((canvas.getWidth()-21)+1));			//300;
+			int y = r.nextInt((int)((canvas.getWidth()-21)+1));			//300;
 			public void handle(long currentNanoTime) {
 				gc.clearRect(0, 0, 500, 500);
-				if (keysActive.contains("LEFT")&&x>0) {
+				if ((keysActive.contains("LEFT") || keysActive.contains("A"))&&x>0) {
 					x--;
 				}
-				if (keysActive.contains("RIGHT")&&x<canvas.getWidth()-20) {
+				if ((keysActive.contains("RIGHT") || keysActive.contains("D"))&&x<canvas.getWidth()-20) {
 					x++;
 				}
-				if (keysActive.contains("UP")&&y>0) {
+				if ((keysActive.contains("UP") || keysActive.contains("W"))&&y>0) {
 					y--;
 				}
-				if (keysActive.contains("DOWN")&&y<canvas.getHeight()-20) {
+				if ((keysActive.contains("DOWN") || keysActive.contains("S"))&&y<canvas.getHeight()-20) {
 					y++;
 				}
 				
 //				gc.fillText("test", x, y);
 //				Image marble = new Image("marble.png");
 //				gc.drawImage(marble, x, y,20,20);
+				gc.setFill(Color.WHITE);
 				gc.fillOval(x, y, 20, 20);
-				gc.fillText("x:" +x, 400, 10);
-				gc.fillText("y:" +y, 400, 25);
+				gc.fillText("x: " +x, 400, 10);
+				gc.fillText("y: " +y, 400, 25);
 				
 				
 			}
