@@ -2,7 +2,7 @@
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import com.sun.prism.paint.Color;
+import javafx.scene.paint.Color;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -74,7 +74,7 @@ public class FirstGUI extends Application{
 		
 		
 		
-		Button exit = new Button("Click to exit");
+		Button exit = new Button("Exit");
 		exit.setLayoutX(10);
 		exit.setLayoutY(10);
 		exit.setOnAction(new EventHandler<ActionEvent>(){
@@ -84,12 +84,11 @@ public class FirstGUI extends Application{
 		});
 		
 
-		
 		Canvas canvas = new Canvas(500,500);
 		StackPane holder = new StackPane();
 		holder.getChildren().add(canvas);
-		root.getChildren().add(canvas);
-		holder.setStyle("-fx-background-color: black;");
+		root.getChildren().add(holder);
+		holder.setStyle("-fx-background-color: BLACK;");
 		root.getChildren().add(exit);
 		System.out.println(canvas.getHeight());
 		
@@ -97,6 +96,7 @@ public class FirstGUI extends Application{
 		ArrayList<String> keysActive = new ArrayList<String>();
 		
 		newScene.setOnKeyPressed(
+				//add pressed keys to list
 				new EventHandler<KeyEvent>() {
 					public void handle(KeyEvent e) {
 						String code = e.getCode().toString();
@@ -111,6 +111,7 @@ public class FirstGUI extends Application{
 		
 		
 		newScene.setOnKeyReleased(
+				//remove released key from list
 				new EventHandler<KeyEvent>() {
 					public void handle(KeyEvent e) {
 						String code = e.getCode().toString();
@@ -127,11 +128,14 @@ public class FirstGUI extends Application{
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		new AnimationTimer() {
+			//flexible spawnposition of ball
 			Random r = new Random();
 			int x = r.nextInt((int)((canvas.getWidth()-21)+1));			//300;
 			int y = r.nextInt((int)((canvas.getWidth()-21)+1));			//300;
 			public void handle(long currentNanoTime) {
 				gc.clearRect(0, 0, 500, 500);
+				
+				//make sure the ball moves the right way and does not leave the window
 				if ((keysActive.contains("LEFT") || keysActive.contains("A"))&&x>0) {
 					x--;
 				}
@@ -145,20 +149,31 @@ public class FirstGUI extends Application{
 					y++;
 				}
 				
-//				gc.fillText("test", x, y);
-//				Image marble = new Image("marble.png");
-//				gc.drawImage(marble, x, y,20,20);
-				gc.setFill(Color.WHITE);
+				//if the ball is in the target
+				if((x > 250 && x < 260) && (y > 250 && y < 260)) {
+					System.out.println("WON");
+					Platform.exit();
+				}	
+				
+				//moving ball
+				gc.setFill(Color.WHITE);;
 				gc.fillOval(x, y, 20, 20);
+				
+				//information about position of ball 
 				gc.fillText("x: " +x, 400, 10);
 				gc.fillText("y: " +y, 400, 25);
 				
+				//the target
+				gc.setStroke(Color.RED);
+				gc.strokeOval(250, 250, 30, 30);
+				
+				//an obstacle
+				gc.fillRect(30, 50, 10, 100);
 				
 			}
 			
 			public void drawObjects() {
 				//react to the levels array somehow
-				
 			}
 		}.start();
 		prime.setResizable(false);
