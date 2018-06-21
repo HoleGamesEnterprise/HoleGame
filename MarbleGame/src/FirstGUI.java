@@ -56,7 +56,7 @@ public class FirstGUI extends Application {
 		for (int i = 0; i < levels.length; i++) {
 			levels[i] = new Level();
 			levels[i].setGameObjectsList(new ArrayList<GameObjects>());
-			for (int j = 0; j < 2; j++) {
+			for (int j = 0; j < 10; j++) {
 				levels[i].add(new GameObjects());
 				/*
 				 * BUG: Wir sind nach dem jetzigen design gezwungen nicht mehr oder weniger GameObjects hinzuzufügen als wir dann auch initalisieren
@@ -72,10 +72,19 @@ public class FirstGUI extends Application {
 		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,100));
 		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,400));
 		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,400));
+
+		levels[0].getGameObjectsList().get(1).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
 		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(250,100));
 		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(100,400));
 		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(400,400));
 		
+		
+		
+		/*
+		 * Ein Level besteht aus einer ArrayList<GameObjects>. Diese muss initialisiert werden
+		 * Jedes level hat eine arraylist(die initialisiert werden muss)<Pair<Integer,Integer>>. Die pairs repraesentieren
+		 * Koordinaten des aktuellen GAMEOBJECTS!. Von der ersten coord bis zur letzen wird das objekt automatisch gezeichnet
+		 */
 		/*
 		 * test objekte. einmal ein viereck und einmal ein dreieck. Versucht mal mehr hinzuzufügen
 		 * !!!!!!!Vergisst nicht, wenn ihr mehr haben wollt, oben die schleife auf eins zu erweitern!!!!!!!
@@ -114,19 +123,23 @@ public class FirstGUI extends Application {
 			/*
 			 * Fuer die anzahl der gameobjects in einen level machst du
 			 */
-			int oldValX = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getKey();
-			int oldValY = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getValue();
-			for (int j = 0; j<levels[0].getGameObjectsList().get(i).getCoordsLength(); j++) {
-				/*
-				 * male eine linie von den alten koords aus zu den neuen. 
-				 * ganz praktisch dass am anfang der schleife die letze koordinate das letzte element der liste ist
-				 */
-				
-				Pair<Integer,Integer> values = levels[0].getGameObjectsList().get(i).getCoordsList().get(j);
-				Line line = new Line(oldValX, oldValY, values.getKey(), values.getValue());
-				oldValX = values.getKey();
-				oldValY = values.getValue();
-				root.getChildren().add(line);
+			
+			if (levels[0].getGameObjectsList().get(i).getCoordsList()!=null) {
+				int oldValX = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getKey();
+				int oldValY = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getValue();
+				for (int j = 0; j<levels[0].getGameObjectsList().get(i).getCoordsLength(); j++) {
+					/*
+					 * male eine linie von den alten koords aus zu den neuen. 
+					 * ganz praktisch dass am anfang der schleife die letze koordinate das letzte element der liste ist
+					 */
+					
+					Pair<Integer,Integer> values = levels[0].getGameObjectsList().get(i).getCoordsList().get(j);
+					Line line = new Line(oldValX, oldValY, values.getKey(), values.getValue());
+					oldValX = values.getKey();
+					oldValY = values.getValue();
+					root.getChildren().add(line);
+			}
+
 			}
 		}
 		
