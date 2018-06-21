@@ -85,7 +85,6 @@ public class FirstGUI extends Application {
 		
 		
 		
-		
 
 		prime.setTitle("Game Test WIP"); //titel
 		Group root = new Group();	//gruppe der einfachheit wegen
