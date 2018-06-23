@@ -47,7 +47,10 @@ public class FirstGUI extends Application {
 		Level[] levels = new Level[10];
 		
 
-		
+		/*
+		 * palceholder variable for the act. level
+		 */
+		int levelAct = 0;
 		
 		
 		/*
@@ -67,16 +70,16 @@ public class FirstGUI extends Application {
 
 		
 		
-		levels[0].getGameObjectsList().get(0).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
-		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,100));
-		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,100));
-		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,400));
-		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,400));
+		levels[levelAct].getGameObjectsList().get(0).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
+		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,100));
+		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,100));
+		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,400));
+		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,400));
 
-		levels[0].getGameObjectsList().get(1).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
-		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(250,100));
-		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(100,400));
-		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(400,400));
+		levels[levelAct].getGameObjectsList().get(1).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
+		levels[levelAct].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(250,100));
+		levels[levelAct].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(100,400));
+		levels[levelAct].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(400,400));
 		
 		
 		
@@ -124,7 +127,7 @@ public class FirstGUI extends Application {
 			 * Fuer die anzahl der gameobjects in einen level machst du
 			 */
 			
-			if (levels[0].getGameObjectsList().get(i).getCoordsList()!=null) {
+			if (levels[levelAct].getGameObjectsList().get(i).getCoordsList()!=null) {
 				int oldValX = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getKey();
 				int oldValY = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getValue();
 				for (int j = 0; j<levels[0].getGameObjectsList().get(i).getCoordsLength(); j++) {
@@ -237,8 +240,73 @@ public class FirstGUI extends Application {
 	}
 
 	
-	public void drawLevel(int Level, Level[] levels) {
+	public boolean isOnLine(Pair<Integer,Integer> coords, Level[] levels, int levelAct) {
+		boolean is = false;
+		for (int i = 0; i<levels[levelAct].getGameObjectsAmmount(); i++) {
+			for (int j = 0; j<levels[levelAct].getGameObjectsList().get(i).getCoordsLength()-1;j++) {
+				
+				Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(j);
+				Pair<Integer, Integer> next=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(j+1);
+				int valSteigung;
+				int valRechts;
+				int valUp;
+				
+				if (act.getKey()>next.getKey()) {
+					valSteigung=act.getValue()-next.getValue();
+					valRechts=-(act.getKey());
+					valUp=act.getKey();
+				}
+				else {
+					valSteigung=next.getValue()-act.getValue();
+					valRechts=-(next.getKey());
+					valUp=next.getValue();
+				}
+				
+				if (!is) {
+					
+					is = ((valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp) == coords.getValue());
+				}
+				
+				
+				
+			}
+			
+			
+			Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(levels[levelAct].getGameObjectsList().get(i).getCoordsLength());
+			Pair<Integer, Integer> next=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(0);
+			int valSteigung;
+			int valRechts;
+			int valUp;
+			
+			if (act.getKey()>next.getKey()) {
+				valSteigung=act.getValue()-next.getValue();
+				valRechts=-(act.getKey());
+				valUp=act.getKey();
+			}
+			else {
+				valSteigung=next.getValue()-act.getValue();
+				valRechts=-(next.getKey());
+				valUp=next.getValue();
+			}
+			
+			if (!is) {
+				
+				is = ((valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp) == coords.getValue());
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+		}
 		
+		
+		return is;
 	}
 	
 	
