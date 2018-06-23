@@ -296,7 +296,12 @@ public class FirstGUI extends Application {
 			
 			
 			
-			
+			if (act.getKey()>next.getKey()) {
+				is = (act.getKey()>coords.getKey()&&next.getKey()<coords.getKey());
+			}
+			else {
+				is = (next.getKey()>coords.getKey()&&act.getKey()<coords.getKey());
+			}
 			
 			
 			
