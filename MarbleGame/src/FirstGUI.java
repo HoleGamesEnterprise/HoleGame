@@ -197,16 +197,16 @@ public class FirstGUI extends Application {
 
 			public void handle(long currentNanoTime) {
 				gc.clearRect(0, 0, 500, 500);
-				if (keysActive.contains("LEFT") && x > 0) {
+				if (keysActive.contains("LEFT") && x > 0 && isOnLine(new Pair<Integer, Integer>(x-1,y),levels,levelAct)) {
 					x--;
 				}
-				if (keysActive.contains("RIGHT") && x < canvas.getWidth() - 20) {
+				if (keysActive.contains("RIGHT") && x < canvas.getWidth() - 20 && isOnLine(new Pair<Integer, Integer>(x+1,y),levels,levelAct)) {
 					x++;
 				}
-				if (keysActive.contains("UP") && y > 0) {
+				if (keysActive.contains("UP") && y > 0 && isOnLine(new Pair<Integer, Integer>(x,y-1),levels,levelAct)) {
 					y--;
 				}
-				if (keysActive.contains("DOWN") && y < canvas.getHeight() - 20) {
+				if (keysActive.contains("DOWN") && y < canvas.getHeight() - 20 && isOnLine(new Pair<Integer, Integer>(x,y+1),levels,levelAct)) {
 					y++;
 				}
 				/*
