@@ -6,7 +6,7 @@ public class GameObjects {
 
 
 	
-	ArrayList<Pair<Integer, Integer>> coords = new ArrayList<Pair<Integer,Integer>>();
+	ArrayList<Pair<Integer, Integer>> coords;/* = new ArrayList<Pair<Integer,Integer>>();*/
 	
 	/**
 	 * creates an gameobject, it already has an arraylist initliazed like dis= ArrayList<Pair<Integer,Integer>>()
@@ -27,7 +27,10 @@ public class GameObjects {
 	 * @return
 	 */
 	public ArrayList<Pair<Integer, Integer>> getCoordsList(){
-		return coords;
+		if (coords!=null) {
+			return coords;
+		}
+		return null;
 	}
 	
 	/**

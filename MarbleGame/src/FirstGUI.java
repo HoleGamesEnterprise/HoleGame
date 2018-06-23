@@ -47,7 +47,10 @@ public class FirstGUI extends Application {
 		Level[] levels = new Level[10];
 		
 
-		
+		/*
+		 * palceholder variable for the act. level
+		 */
+		int levelAct = 0;
 		
 		
 		/*
@@ -56,7 +59,7 @@ public class FirstGUI extends Application {
 		for (int i = 0; i < levels.length; i++) {
 			levels[i] = new Level();
 			levels[i].setGameObjectsList(new ArrayList<GameObjects>());
-			for (int j = 0; j < 2; j++) {
+			for (int j = 0; j < 10; j++) {
 				levels[i].add(new GameObjects());
 				/*
 				 * BUG: Wir sind nach dem jetzigen design gezwungen nicht mehr oder weniger GameObjects hinzuzufügen als wir dann auch initalisieren
@@ -67,20 +70,28 @@ public class FirstGUI extends Application {
 
 		
 		
-		levels[0].getGameObjectsList().get(0).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
-		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,100));
-		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,100));
-		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,400));
-		levels[0].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,400));
-		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(250,100));
-		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(100,400));
-		levels[0].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(400,400));
+		levels[levelAct].getGameObjectsList().get(0).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
+		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,100));
+		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,100));
+		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,400));
+		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,400));
+
+		levels[levelAct].getGameObjectsList().get(1).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
+		levels[levelAct].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(250,100));
+		levels[levelAct].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(100,400));
+		levels[levelAct].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(400,400));
 		
+		
+		
+		/*
+		 * Ein Level besteht aus einer ArrayList<GameObjects>. Diese muss initialisiert werden
+		 * Jedes level hat eine arraylist(die initialisiert werden muss)<Pair<Integer,Integer>>. Die pairs repraesentieren
+		 * Koordinaten des aktuellen GAMEOBJECTS!. Von der ersten coord bis zur letzen wird das objekt automatisch gezeichnet
+		 */
 		/*
 		 * test objekte. einmal ein viereck und einmal ein dreieck. Versucht mal mehr hinzuzufügen
 		 * !!!!!!!Vergisst nicht, wenn ihr mehr haben wollt, oben die schleife auf eins zu erweitern!!!!!!!
 		 */
-		
 		
 		
 		
@@ -115,19 +126,23 @@ public class FirstGUI extends Application {
 			/*
 			 * Fuer die anzahl der gameobjects in einen level machst du
 			 */
-			int oldValX = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getKey();
-			int oldValY = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getValue();
-			for (int j = 0; j<levels[0].getGameObjectsList().get(i).getCoordsLength(); j++) {
-				/*
-				 * male eine linie von den alten koords aus zu den neuen. 
-				 * ganz praktisch dass am anfang der schleife die letze koordinate das letzte element der liste ist
-				 */
-				
-				Pair<Integer,Integer> values = levels[0].getGameObjectsList().get(i).getCoordsList().get(j);
-				Line line = new Line(oldValX, oldValY, values.getKey(), values.getValue());
-				oldValX = values.getKey();
-				oldValY = values.getValue();
-				root.getChildren().add(line);
+			
+			if (levels[levelAct].getGameObjectsList().get(i).getCoordsList()!=null) {
+				int oldValX = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getKey();
+				int oldValY = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getValue();
+				for (int j = 0; j<levels[0].getGameObjectsList().get(i).getCoordsLength(); j++) {
+					/*
+					 * male eine linie von den alten koords aus zu den neuen. 
+					 * ganz praktisch dass am anfang der schleife die letze koordinate das letzte element der liste ist
+					 */
+					
+					Pair<Integer,Integer> values = levels[0].getGameObjectsList().get(i).getCoordsList().get(j);
+					Line line = new Line(oldValX, oldValY, values.getKey(), values.getValue());
+					oldValX = values.getKey();
+					oldValY = values.getValue();
+					root.getChildren().add(line);
+			}
+
 			}
 		}
 		
@@ -182,16 +197,16 @@ public class FirstGUI extends Application {
 
 			public void handle(long currentNanoTime) {
 				gc.clearRect(0, 0, 500, 500);
-				if (keysActive.contains("LEFT") && x > 0) {
+				if (keysActive.contains("LEFT") && x > 0 && isOnLine(new Pair<Integer, Integer>(x-1,y),levels,levelAct)) {
 					x--;
 				}
-				if (keysActive.contains("RIGHT") && x < canvas.getWidth() - 20) {
+				if (keysActive.contains("RIGHT") && x < canvas.getWidth() - 20 && isOnLine(new Pair<Integer, Integer>(x+1,y),levels,levelAct)) {
 					x++;
 				}
-				if (keysActive.contains("UP") && y > 0) {
+				if (keysActive.contains("UP") && y > 0 && isOnLine(new Pair<Integer, Integer>(x,y-1),levels,levelAct)) {
 					y--;
 				}
-				if (keysActive.contains("DOWN") && y < canvas.getHeight() - 20) {
+				if (keysActive.contains("DOWN") && y < canvas.getHeight() - 20 && isOnLine(new Pair<Integer, Integer>(x,y+1),levels,levelAct)) {
 					y++;
 				}
 				/*
@@ -225,8 +240,78 @@ public class FirstGUI extends Application {
 	}
 
 	
-	public void drawLevel(int Level, Level[] levels) {
+	public boolean isOnLine(Pair<Integer,Integer> coords, Level[] levels, int levelAct) {
+		boolean is = false;
+		for (int i = 0; i<levels[levelAct].getGameObjectsAmmount(); i++) {
+			for (int j = 0; j<levels[levelAct].getGameObjectsList().get(i).getCoordsLength()-1;j++) {
+				
+				Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(j);
+				Pair<Integer, Integer> next=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(j+1);
+				int valSteigung;
+				int valRechts;
+				int valUp;
+				
+				if (act.getKey()>next.getKey()) {
+					valSteigung=act.getValue()-next.getValue();
+					valRechts=-(act.getKey());
+					valUp=act.getKey();
+				}
+				else {
+					valSteigung=next.getValue()-act.getValue();
+					valRechts=-(next.getKey());
+					valUp=next.getValue();
+				}
+				
+				if (!is) {
+					
+					is = ((valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp) == coords.getValue());
+				}
+				
+				
+				
+			}
+			
+			
+			Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(levels[levelAct].getGameObjectsList().get(i).getCoordsLength());
+			Pair<Integer, Integer> next=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(0);
+			int valSteigung;
+			int valRechts;
+			int valUp;
+			
+			if (act.getKey()>next.getKey()) {
+				valSteigung=act.getValue()-next.getValue();
+				valRechts=-(act.getKey());
+				valUp=act.getKey();
+			}
+			else {
+				valSteigung=next.getValue()-act.getValue();
+				valRechts=-(next.getKey());
+				valUp=next.getValue();
+			}
+			
+			if (!is) {
+				
+				is = ((valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp) == coords.getValue());
+			}
+			
+			
+			
+			if (act.getKey()>next.getKey()) {
+				is = (act.getKey()>coords.getKey()&&next.getKey()<coords.getKey());
+			}
+			else {
+				is = (next.getKey()>coords.getKey()&&act.getKey()<coords.getKey());
+			}
+			
+			
+			
+			
+			
+
+		}
 		
+		
+		return is;
 	}
 	
 	
