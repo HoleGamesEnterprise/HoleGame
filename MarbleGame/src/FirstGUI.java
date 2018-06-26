@@ -59,7 +59,7 @@ public class FirstGUI extends Application {
 		for (int i = 0; i < levels.length; i++) {
 			levels[i] = new Level();
 			levels[i].setGameObjectsList(new ArrayList<GameObjects>());
-			for (int j = 0; j < 10; j++) {
+			for (int j = 0; j < 2; j++) {
 				levels[i].add(new GameObjects());
 				/*
 				 * BUG: Wir sind nach dem jetzigen design gezwungen nicht mehr oder weniger GameObjects hinzuzufügen als wir dann auch initalisieren
@@ -73,8 +73,8 @@ public class FirstGUI extends Application {
 		levels[levelAct].getGameObjectsList().get(0).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
 		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,100));
 		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,100));
-		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(400,400));
-		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(100,400));
+		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(399,400));
+		levels[levelAct].getGameObjectsList().get(0).addCoord(new Pair<Integer,Integer>(99,400));
 
 		levels[levelAct].getGameObjectsList().get(1).setCoordsList(new ArrayList<Pair<Integer,Integer>>());
 		levels[levelAct].getGameObjectsList().get(1).addCoord(new Pair<Integer,Integer>(250,100));
@@ -119,7 +119,7 @@ public class FirstGUI extends Application {
 		
 		
 		/*
-		 * Die hier unten stehende verschachtelte schleife braucht nur noch dass sie erkennt wenn ein level nicht fertig ist usw. Sie ist fürs zeichnen zustädnig
+		 * Die hier unten stehende verschachtelte schleife braucht nur noch dass sie erkennt wenn ein level nicht fertig ist usw. Sie ist fürs zeichnen zustaednig
 		 */
 		
 		for (int i = 0; i<levels[0].getGameObjectsList().size(); i++) {
@@ -192,21 +192,21 @@ public class FirstGUI extends Application {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		new AnimationTimer() {
-			int x = 300;
-			int y = 300;
+			int x = 100;
+			int y = 100;
 
 			public void handle(long currentNanoTime) {
 				gc.clearRect(0, 0, 500, 500);
-				if (keysActive.contains("LEFT") && x > 0 && isOnLine(new Pair<Integer, Integer>(x-1,y),levels,levelAct)) {
+				if (keysActive.contains("A") && x > 0 && !isOnLine(new Pair<Integer, Integer>(x-1,y),levels,levelAct)) {
 					x--;
 				}
-				if (keysActive.contains("RIGHT") && x < canvas.getWidth() - 20 && isOnLine(new Pair<Integer, Integer>(x+1,y),levels,levelAct)) {
+				if (keysActive.contains("D") && x < canvas.getWidth() - 20 && !isOnLine(new Pair<Integer, Integer>(x+1,y),levels,levelAct)) {
 					x++;
 				}
-				if (keysActive.contains("UP") && y > 0 && isOnLine(new Pair<Integer, Integer>(x,y-1),levels,levelAct)) {
+				if (keysActive.contains("W") && y > 0 && !isOnLine(new Pair<Integer, Integer>(x,y-1),levels,levelAct)) {
 					y--;
 				}
-				if (keysActive.contains("DOWN") && y < canvas.getHeight() - 20 && isOnLine(new Pair<Integer, Integer>(x,y+1),levels,levelAct)) {
+				if (keysActive.contains("S") && y < canvas.getHeight() - 20 && !isOnLine(new Pair<Integer, Integer>(x,y+1),levels,levelAct)) {
 					y++;
 				}
 				/*
@@ -245,6 +245,7 @@ public class FirstGUI extends Application {
 		for (int i = 0; i<levels[levelAct].getGameObjectsAmmount(); i++) {
 			for (int j = 0; j<levels[levelAct].getGameObjectsList().get(i).getCoordsLength()-1;j++) {
 				
+				
 				Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(j);
 				Pair<Integer, Integer> next=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(j+1);
 				int valSteigung;
@@ -253,13 +254,14 @@ public class FirstGUI extends Application {
 				
 				if (act.getKey()>next.getKey()) {
 					valSteigung=act.getValue()-next.getValue();
-					valRechts=-(act.getKey());
-					valUp=act.getKey();
+
+					valRechts=-(next.getKey());
+					valUp=next.getValue();
 				}
 				else {
 					valSteigung=next.getValue()-act.getValue();
-					valRechts=-(next.getKey());
-					valUp=next.getValue();
+					valRechts=-(act.getKey());
+					valUp=act.getKey();
 				}
 				
 				if (!is) {
@@ -267,12 +269,13 @@ public class FirstGUI extends Application {
 					is = ((valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp) == coords.getValue());
 				}
 				
+				System.out.println(valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp);
+
 				
 				
 			}
 			
-			
-			Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(levels[levelAct].getGameObjectsList().get(i).getCoordsLength());
+			Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(levels[levelAct].getGameObjectsList().get(i).getCoordsLength()-1);
 			Pair<Integer, Integer> next=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(0);
 			int valSteigung;
 			int valRechts;
@@ -280,13 +283,14 @@ public class FirstGUI extends Application {
 			
 			if (act.getKey()>next.getKey()) {
 				valSteigung=act.getValue()-next.getValue();
-				valRechts=-(act.getKey());
-				valUp=act.getKey();
+
+				valRechts=-(next.getKey());
+				valUp=next.getValue();
 			}
 			else {
 				valSteigung=next.getValue()-act.getValue();
-				valRechts=-(next.getKey());
-				valUp=next.getValue();
+				valRechts=-(act.getKey());
+				valUp=act.getKey();
 			}
 			
 			if (!is) {
@@ -295,18 +299,23 @@ public class FirstGUI extends Application {
 			}
 			
 			
-			
-			if (act.getKey()>next.getKey()) {
-				is = (act.getKey()>coords.getKey()&&next.getKey()<coords.getKey());
+			if (is) {
+				if (act.getKey()>next.getKey()) {
+					is = (act.getKey()>coords.getKey()&&next.getKey()<coords.getKey());
+				}
+				else {
+					is = (next.getKey()>coords.getKey()&&act.getKey()<coords.getKey());
+				}
 			}
-			else {
-				is = (next.getKey()>coords.getKey()&&act.getKey()<coords.getKey());
-			}
 			
 			
+			System.out.println(valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp);
 			
 			
-			
+//			System.out.println(valSteigung);
+//			System.out.println(valRechts);
+//			System.out.println(valUp);
+//			System.out.println(is);
 
 		}
 		
