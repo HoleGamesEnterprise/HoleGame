@@ -267,6 +267,17 @@ public class FirstGUI extends Application {
 					is = ((valSteigung*coords.getKey()+valUp) == coords.getValue());
 				}
 				
+				
+				if (is) {
+					if (act.getKey()>next.getKey()) {
+						is = (act.getKey()>coords.getKey()&&next.getKey()<coords.getKey());
+						return is;
+					}
+					else {
+						is = (next.getKey()>coords.getKey()&&act.getKey()<coords.getKey());
+						return is;
+					}
+				}
 				System.out.println(valSteigung*coords.getKey()+valUp);
 
 				
