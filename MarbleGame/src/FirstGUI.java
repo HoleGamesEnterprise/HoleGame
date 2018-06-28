@@ -119,7 +119,7 @@ public class FirstGUI extends Application {
 		
 		
 		/*
-		 * Die hier unten stehende verschachtelte schleife braucht nur noch dass sie erkennt wenn ein level nicht fertig ist usw. Sie ist fürs zeichnen zustaednig
+		 * Die hier unten stehende verschachtelte schleife braucht nur noch dass sie erkennt wenn ein level nicht fertig ist usw. Sie ist fuers zeichnen zustaednig
 		 */
 		
 		for (int i = 0; i<levels[0].getGameObjectsList().size(); i++) {
@@ -249,27 +249,25 @@ public class FirstGUI extends Application {
 				Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(j);
 				Pair<Integer, Integer> next=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(j+1);
 				int valSteigung;
-				int valRechts;
 				int valUp;
 				
+				
+				//TODO Fix math bullshit so it works
 				if (act.getKey()>next.getKey()) {
-					valSteigung=act.getValue()-next.getValue();
-
-					valRechts=-(next.getKey());
-					valUp=next.getValue();
+					valSteigung=(act.getValue()-next.getValue())/(act.getKey()-next.getKey());
+					valUp=act.getValue()-(act.getKey()*valSteigung);
 				}
 				else {
-					valSteigung=next.getValue()-act.getValue();
-					valRechts=-(act.getKey());
-					valUp=act.getKey();
+					valSteigung=(next.getValue()-act.getValue())/(next.getKey()-act.getKey());
+					valUp=act.getValue()-(act.getKey()*valSteigung);
 				}
 				
 				if (!is) {
 					
-					is = ((valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp) == coords.getValue());
+					is = ((valSteigung*coords.getKey()+valUp) == coords.getValue());
 				}
 				
-				System.out.println(valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp);
+				System.out.println(valSteigung*coords.getKey()+valUp);
 
 				
 				
@@ -278,24 +276,20 @@ public class FirstGUI extends Application {
 			Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(levels[levelAct].getGameObjectsList().get(i).getCoordsLength()-1);
 			Pair<Integer, Integer> next=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(0);
 			int valSteigung;
-			int valRechts;
 			int valUp;
 			
 			if (act.getKey()>next.getKey()) {
-				valSteigung=act.getValue()-next.getValue();
-
-				valRechts=-(next.getKey());
-				valUp=next.getValue();
+				valSteigung=(act.getValue()-next.getValue())/(act.getKey()-next.getKey());
+				valUp=act.getValue()-(act.getKey()*valSteigung);
 			}
 			else {
-				valSteigung=next.getValue()-act.getValue();
-				valRechts=-(act.getKey());
-				valUp=act.getKey();
+				valSteigung=(next.getValue()-act.getValue())/(next.getKey()-act.getKey());
+				valUp=act.getValue()-(act.getKey()*valSteigung);
 			}
 			
 			if (!is) {
 				
-				is = ((valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp) == coords.getValue());
+				is = ((valSteigung*coords.getKey()+valUp) == coords.getValue());
 			}
 			
 			
@@ -309,7 +303,7 @@ public class FirstGUI extends Application {
 			}
 			
 			
-			System.out.println(valSteigung*coords.getKey()+valRechts*coords.getKey()+valUp);
+			System.out.println(valSteigung*coords.getKey()+valUp);
 			
 			
 //			System.out.println(valSteigung);
