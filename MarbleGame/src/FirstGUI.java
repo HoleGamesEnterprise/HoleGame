@@ -2,7 +2,7 @@
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-import com.sun.prism.paint.Color;
+import javafx.scene.paint.Color;
 import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -42,7 +42,7 @@ public class FirstGUI extends Application {
 		Random a = new Random();
 		
 		/*
-		 * 10 level für den anfang, nach der praesi koennen wir ja noch mehr einfuegen
+		 * 10 level fï¿½r den anfang, nach der praesi koennen wir ja noch mehr einfuegen
 		 */
 		Level[] levels = new Level[10];
 		
@@ -50,7 +50,8 @@ public class FirstGUI extends Application {
 		/*
 		 * palceholder variable for the act. level
 		 */
-		int levelAct = 0;
+		//wird die iwo veraendert??
+		int levelAct = 1;
 		
 		
 		/*
@@ -62,7 +63,7 @@ public class FirstGUI extends Application {
 			for (int j = 0; j < 10; j++) {
 				levels[i].add(new GameObjects());
 				/*
-				 * BUG: Wir sind nach dem jetzigen design gezwungen nicht mehr oder weniger GameObjects hinzuzufügen als wir dann auch initalisieren
+				 * BUG: Wir sind nach dem jetzigen design gezwungen nicht mehr oder weniger GameObjects hinzuzufï¿½gen als wir dann auch initalisieren
 				 * pls fix rito
 				 */
 			}
@@ -89,7 +90,7 @@ public class FirstGUI extends Application {
 		 * Koordinaten des aktuellen GAMEOBJECTS!. Von der ersten coord bis zur letzen wird das objekt automatisch gezeichnet
 		 */
 		/*
-		 * test objekte. einmal ein viereck und einmal ein dreieck. Versucht mal mehr hinzuzufügen
+		 * test objekte. einmal ein viereck und einmal ein dreieck. Versucht mal mehr hinzuzufï¿½gen
 		 * !!!!!!!Vergisst nicht, wenn ihr mehr haben wollt, oben die schleife auf eins zu erweitern!!!!!!!
 		 */
 		
@@ -100,17 +101,17 @@ public class FirstGUI extends Application {
 
 		prime.setTitle("Game Test WIP"); //titel
 		Group root = new Group();	//gruppe der einfachheit wegen
-		Scene newScene = new Scene(root);	//Die szene gehört jetzt root an
+		Scene newScene = new Scene(root);	//Die szene gehï¿½rt jetzt root an
 		prime.setScene(newScene);	//newscene soll angezeigt werden
 		Button exit = new Button("Click to exit");	//exit button ungso ez pz
 		exit.setLayoutX(10);	//position unso
 		exit.setLayoutY(10);
 		exit.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent e) {
-				Platform.exit();	//beendet das ganze sobald der button gedrückt wird
+				Platform.exit();	//beendet das ganze sobald der button gedrï¿½ckt wird
 			}
 		});
-		Canvas canvas = new Canvas(500, 500);	//canvas notwendig für interaktive und sich bewegende figuren etc
+		Canvas canvas = new Canvas(500, 500);	//canvas notwendig fï¿½r interaktive und sich bewegende figuren etc
 		canvas.setStyle("-fx-background-color: black;"); // warum auch immer das nicht geht
 		root.getChildren().add(canvas);	//der ganze mist hinzugefuegt
 		root.getChildren().add(exit);
@@ -119,7 +120,7 @@ public class FirstGUI extends Application {
 		
 		
 		/*
-		 * Die hier unten stehende verschachtelte schleife braucht nur noch dass sie erkennt wenn ein level nicht fertig ist usw. Sie ist fürs zeichnen zustädnig
+		 * Die hier unten stehende verschachtelte schleife braucht nur noch dass sie erkennt wenn ein level nicht fertig ist usw. Sie ist fï¿½rs zeichnen zustï¿½dnig
 		 */
 		
 		for (int i = 0; i<levels[0].getGameObjectsList().size(); i++) {
@@ -128,6 +129,7 @@ public class FirstGUI extends Application {
 			 */
 			
 			if (levels[levelAct].getGameObjectsList().get(i).getCoordsList()!=null) {
+				//nullpointerexception!
 				int oldValX = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getKey();
 				int oldValY = levels[0].getGameObjectsList().get(i).getCoordsList().get(levels[0].getGameObjectsList().get(i).getCoordsLength()-1).getValue();
 				for (int j = 0; j<levels[0].getGameObjectsList().get(i).getCoordsLength(); j++) {
@@ -197,20 +199,20 @@ public class FirstGUI extends Application {
 
 			public void handle(long currentNanoTime) {
 				gc.clearRect(0, 0, 500, 500);
-				if (keysActive.contains("LEFT") && x > 0 && isOnLine(new Pair<Integer, Integer>(x-1,y),levels,levelAct)) {
+				if ((keysActive.contains("LEFT") || keysActive.contains("A")) && x > 0 && isOnLine(new Pair<Integer, Integer>(x-1,y),levels,levelAct)) {
 					x--;
 				}
-				if (keysActive.contains("RIGHT") && x < canvas.getWidth() - 20 && isOnLine(new Pair<Integer, Integer>(x+1,y),levels,levelAct)) {
+				if ((keysActive.contains("RIGHT") || keysActive.contains("D")) && x < canvas.getWidth() - 20 && isOnLine(new Pair<Integer, Integer>(x+1,y),levels,levelAct)) {
 					x++;
 				}
-				if (keysActive.contains("UP") && y > 0 && isOnLine(new Pair<Integer, Integer>(x,y-1),levels,levelAct)) {
+				if ((keysActive.contains("UP") || keysActive.contains("W")) && y > 0 && isOnLine(new Pair<Integer, Integer>(x,y-1),levels,levelAct)) {
 					y--;
 				}
-				if (keysActive.contains("DOWN") && y < canvas.getHeight() - 20 && isOnLine(new Pair<Integer, Integer>(x,y+1),levels,levelAct)) {
+				if ((keysActive.contains("DOWN") || keysActive.contains("S")) && y < canvas.getHeight() - 20 && isOnLine(new Pair<Integer, Integer>(x,y+1),levels,levelAct)) {
 					y++;
 				}
 				/*
-				 * vier mal ifs, damit die kugel auch schräg fliegen kann
+				 * vier mal ifs, damit die kugel auch schrï¿½g fliegen kann
 				 */
 				// gc.fillText("test", x, y);
 				// Image marble = new Image("marble.png");
@@ -271,8 +273,8 @@ public class FirstGUI extends Application {
 				
 			}
 			
-			
-			Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(levels[levelAct].getGameObjectsList().get(i).getCoordsLength());
+			//zugriff auf laenge, laenge aber immer 1 groesser als letzter index
+			Pair<Integer, Integer> act=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(levels[levelAct-1].getGameObjectsList().get(i).getCoordsLength());
 			Pair<Integer, Integer> next=levels[levelAct].getGameObjectsList().get(i).getCoordsList().get(0);
 			int valSteigung;
 			int valRechts;

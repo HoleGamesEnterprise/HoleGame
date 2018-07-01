@@ -69,6 +69,7 @@ public class GameObjects {
 	 * @return
 	 */
 	public int getCoordsLength() {
-		return coords.size();
+		//runtime exception/nullpointer
+		return coords.size()+1;
 	}
 }
