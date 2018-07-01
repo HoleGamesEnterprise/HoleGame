@@ -1,37 +1,26 @@
 import java.util.ArrayList;
 
+import javafx.scene.shape.Rectangle;
+
 public class Level {
 
-	
-	ArrayList<GameObjects> go = new ArrayList<GameObjects>();
-	
-	Level(){
-		this(null);
+	public ArrayList<Rectangle> obstacles;
+
+	Level() {
+		obstacles = new ArrayList<Rectangle>();
 	}
 	
-	Level(ArrayList<GameObjects> list){
-		go=list;
+	Level(Rectangle... r) {
+		for(Rectangle rect: r)
+			obstacles.add(rect);
+	}
+
+	public void add(Rectangle r) {
+		obstacles.add(r);
 	}
 	
-	public void add(GameObjects a) {
-		go.add(a);
+	public Rectangle getObstacles(int i) {
+		return obstacles.get(i);
 	}
-	
-	public GameObjects remove(GameObjects a) {
-		GameObjects tmp = go.get(go.indexOf(a));
-		go.remove(a);
-		return tmp;
-	}
-	
-	public GameObjects getObject(int index) {
-		return go.get(index);
-	}
-	
-	public void setGameObjects(ArrayList<GameObjects> a) {
-		this.go=a;
-	}
-	
-	public ArrayList<GameObjects> getGameObjectsList(){
-		return go;
-	}
+
 }
