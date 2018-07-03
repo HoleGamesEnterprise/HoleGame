@@ -62,6 +62,7 @@ public class FirstGUI extends Application {
 	
 	MenuItem exit = new MenuItem("Exit");
 	
+	RadioMenuItem l0 = new RadioMenuItem("Level 0");
 	RadioMenuItem l1 = new RadioMenuItem("Level 1");
 	RadioMenuItem l2 = new RadioMenuItem("Level 2");
 	RadioMenuItem l3 = new RadioMenuItem("Level 3");
@@ -74,17 +75,22 @@ public class FirstGUI extends Application {
 	Scene newScene = new Scene(root);	
 	Canvas canvas = new Canvas(500, 500);
 	StackPane holder = new StackPane();
+	GraphicsContext gc = canvas.getGraphicsContext2D();
 	
 	public void start(Stage prime) throws Exception {
 		
 		//level zur toggle group hinzufuegen (so kann nur 1 gewaehlt werden)
+		l0.setToggleGroup(tg);
 		l1.setToggleGroup(tg);
 		l2.setToggleGroup(tg);
 		l3.setToggleGroup(tg);
 		l4.setToggleGroup(tg);
 		l5.setToggleGroup(tg);
 
+		l0.setSelected(true);
+		
 		//event handling
+		l0.setOnAction(e -> { levelAct = 0; root.getChildren().clear(); root.getChildren().addAll(holder, menuBar); });
 		l1.setOnAction(e -> { levelAct = 1; root.getChildren().clear(); root.getChildren().addAll(holder, menuBar, obst1); });
 		l2.setOnAction(e -> { levelAct = 2; root.getChildren().clear(); root.getChildren().addAll(holder, menuBar, obst1, obst2); });
 		l3.setOnAction(e -> { levelAct = 3; root.getChildren().clear(); root.getChildren().addAll(holder, menuBar, obst1, obst2, obst3); });
@@ -124,7 +130,7 @@ public class FirstGUI extends Application {
 		exit.setOnAction(e -> { Platform.exit(); });
 		
 		//menu aufbauen
-		menuLevel.getItems().addAll(l1, l2, l3, l4, l5);
+		menuLevel.getItems().addAll(l0, l1, l2, l3, l4, l5);
 		menuExit.getItems().add(exit);
 		menuBar.getMenus().addAll(menuLevel, menuExit);
 		
@@ -148,9 +154,8 @@ public class FirstGUI extends Application {
 			}
 		});
 
-		prime.setTitle("Game Test WIP"); 
+		prime.setTitle("MarbleGame"); 
 		prime.setScene(newScene);
-		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		//bounds der hindernisse in liste speichern
 		bounds.add(bb1);
@@ -218,12 +223,13 @@ public class FirstGUI extends Application {
 				}
 			
 				//wenn der ball im ziel ist, beendet sich das spiel
-				if((x > 250 && x < 260) && (y > 250 && y < 260)) {
+				if(levelAct > 0 && (x > 250 && x < 260) && (y > 250 && y < 260)) {
 					levelAct = 0;
 					x = 50;
 					y = 340;
 					root.getChildren().clear(); 
 					root.getChildren().addAll(holder, menuBar);
+					l0.setSelected(true);
 				}	
 				
 				//farbe des bewegenden balls
@@ -240,9 +246,10 @@ public class FirstGUI extends Application {
 				gc.fillText("y: " + yR, 400, 25);
 
 				//ziel, in das ball soll
-				gc.setStroke(Color.RED);
-				gc.strokeOval(250, 250, 30, 30);
-				
+				if(levelAct > 0) {
+					gc.setStroke(Color.RED);
+					gc.strokeOval(250, 250, 30, 30);
+				}
 
 			}
 
